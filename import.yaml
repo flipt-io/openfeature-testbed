@@ -1,0 +1,139 @@
+flags:
+  - key: boolean-flag
+    name: Boolean Flag
+    enabled: true
+    variants:
+      - key: true
+        name: on
+      - key: false
+        name: off
+    rules:
+      - segment: true-segment
+        rank: 1
+        distributions:
+          - variant: true
+            rollout: 100
+
+  - key: string-flag
+    name: String Flag
+    enabled: true
+    variants:
+      - key: hi
+        name: greeting
+      - key: bye
+        name: parting
+    rules:
+      - segment: true-segment
+        rank: 1
+        distributions:
+          - variant: hi
+            rollout: 100
+
+  - key: integer-flag
+    name: Integer Flag
+    enabled: true
+    variants:
+      - key: 1
+        name: one
+      - key: 10
+        name: ten
+    rules:
+      - segment: true-segment
+        rank: 1
+        distributions:
+          - variant: 10
+            rollout: 100
+
+  - key: float-flag
+    name: Float Flag
+    enabled: true
+    variants:
+      - key: 0.1
+        name: tenth
+      - key: 0.5
+        name: half
+    rules:
+      - segment: true-segment
+        rank: 1
+        distributions:
+          - variant: 0.5
+            rollout: 100
+
+  - key: object-flag
+    name: Object Flag
+    enabled: true
+    variants:
+      - key: empty
+        name: empty
+        attachment: {}
+      - key: template
+        name: template
+        attachment:
+          showImages: true
+          title: Check out these pics!
+          imagesPerPage: 100
+    rules:
+      - segment: true-segment
+        rank: 1
+        distributions:
+          - variant: template
+            rollout: 100
+
+  - key: context-aware
+    name: Context Aware
+    enabled: true
+    variants:
+      - key: internal
+        name: Internal
+      - key: external
+        name: External
+    rules:
+      - segment: context-aware
+        rank: 1
+        distributions:
+          - variant: internal
+            rollout: 100
+
+  - key: wrong-flag
+    name: Wrong Flag
+    enabled: true
+    variants:
+      - key: one
+        value: uno
+      - key: two
+        value: dos
+    rules:
+      - segment: true-segment
+        rank: 1
+        distributions:
+          - variant: one
+            rollout: 100
+
+segments:
+  - key: true-segment
+    name: Boolean Segment
+    match_type: "ANY_MATCH_TYPE"
+    constraints:
+      - type: BOOLEAN_COMPARISON_TYPE
+        property: evaluate
+        operator: true
+
+  - key: context-aware
+    name: Context Aware
+    match_type: "ALL_MATCH_TYPE"
+    constraints:
+      - type: STRING_COMPARISON_TYPE
+        property: fn
+        operator: eq
+        value: Sulisław
+      - type: STRING_COMPARISON_TYPE
+        property: ln
+        operator: eq
+        value: Świętopełk
+      - type: NUMBER_COMPARISON_TYPE
+        property: age
+        operator: eq
+        value: 29
+      - type: BOOLEAN_COMPARISON_TYPE
+        property: customer
+        operator: false
